@@ -120,6 +120,7 @@ func dial(msg []byte, dns string) (*Message, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer conn.Close()
 
 	conn.SetWriteDeadline(time.Now().Add(time.Second))
 	conn.SetReadDeadline(time.Now().Add(time.Second))
