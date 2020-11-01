@@ -6,15 +6,17 @@ import (
 )
 
 func TestEasyDnsIP(t *testing.T) {
-	ip, err := LookupIP("baidu.com", "223.5.5.5:53")
+	ip, err := LookupIP("dss1.bdstatic.com", "223.5.5.5:53")
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	log.Println(ip.Answers[0].Header.Type)
 	log.Println(ip.Answers[0].Body.GoString())
 }
 
 func TestEasyDnsIP2(t *testing.T) {
-	simple, err := LookupIPSimple("baidu.com", "223.5.5.5:53")
+	simple, err := LookupIPSimple("dss1.bdstatic.com", "223.5.5.5:53")
 	if err != nil {
 		log.Fatalln(err)
 	}

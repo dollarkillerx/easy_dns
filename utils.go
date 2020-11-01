@@ -1,6 +1,7 @@
 package easy_dns
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"net"
@@ -102,17 +103,19 @@ func LookupIP(domain string, dnsIP string) (*Message, error) {
 	return dial(pack, dnsIP)
 }
 
-func LookupIPSimple(domain string, dnsIP string) ([]string, error) {
+func LookupIPSimple(domain string, dnsIP string) (string, error) {
 	ip, err := LookupIP(domain, dnsIP)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	var result []string
+	var result string
 	for _, v := range ip.Answers {
-		result = append(result, v.Body.GoString())
+		if v.Header.Type == TypeA {
+			return v.Body.GoString(), nil
+		}
 	}
 
-	return result, nil
+	return result, fmt.Errorf("not fund")
 }
 
 func dial(msg []byte, dns string) (*Message, error) {
